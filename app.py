@@ -18,8 +18,13 @@ import numpy as np
 import os
 
 # Load model
-fake_model = load_model('model.h5')
+fake_model = None
 
+def get_model():
+    global fake_model
+    if fake_model is None:
+        fake_model = load_model('model.h5')
+    return fake_model
 UPLOAD_FOLDER = "static/uploads/"
 
 app = Flask(__name__)
@@ -261,7 +266,8 @@ def predict_fake_image(file_path):
     X = np.array(X)
     X = X.reshape(-1, 128, 128, 3)
 
-    pred = fake_model.predict(X)
+    model = get_model()
+    pred = model.predict(X)
     pred = np.argmax(pred, axis=1)[0]
 
     if pred == 0:
