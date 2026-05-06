@@ -304,3 +304,4 @@ if __name__ == "__main__":
         db.create_all()  # Ensure tables are created before running
 if __name__ == "__main__":
     app.run(debug=True)
+   

@@ -3,116 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Generator</title>
+    <title>Fake News Detection</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        body {
+        body{
             font-family: 'Poppins', sans-serif;
-            background-image: url("{{ url_for('static', filename='img.jpg') }}");
-            background-color: #f0f8ff;
-            background-size: cover; /* Cover the entire screen */
-            background-repeat: no-repeat; /* Prevent image repetition */
-            background-position: center; /* Center the image */
-            color: #333;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url("{{ url_for('static', filename='img.jpg') }}");
+
+            background-size:cover;
+            background-position:center;
+            padding:20px;
+            overflow-x:hidden;
         }
 
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #0077cc;
+        .container{
+            width:100%;
+            max-width:900px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:20px;
+            padding:40px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.4);
+            animation: fadeIn 1s ease;
         }
 
-        form {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+        @keyframes fadeIn{
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
         }
 
-        input[type="text"] {
-            width: 60%;
-            padding: 10px 15px;
-            font-size: 16px;
-            border: 2px solid #0077cc;
-            border-radius: 8px;
-            outline: none;
+        h1{
+            text-align:center;
+            color:white;
+            font-size:3rem;
+            margin-bottom:10px;
+            font-weight:700;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #0077cc;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .subtitle{
+            text-align:center;
+            color:#dcdcdc;
+            margin-bottom:35px;
+            font-size:1rem;
         }
 
-        button:hover {
-            background-color: #005fa3;
+        form{
+            display:flex;
+            gap:15px;
+            justify-content:center;
+            flex-wrap:wrap;
         }
 
-        .result {
-            margin-top: 30px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 800px;
-            text-align: left;
+        input[type="text"]{
+            flex:1;
+            min-width:250px;
+            padding:16px;
+            border:none;
+            border-radius:12px;
+            outline:none;
+            font-size:16px;
+            background:rgba(255,255,255,0.12);
+            color:white;
+            border:1px solid rgba(255,255,255,0.15);
         }
 
-        .result h2 {
-            margin-bottom: 15px;
-            color: #333;
+        input[type="text"]::placeholder{
+            color:#d1d1d1;
         }
 
-        .result p {
-            line-height: 1.6;
-            color: #555;
+        button{
+            padding:15px 28px;
+            border:none;
+            border-radius:12px;
+            background:linear-gradient(135deg,#00c6ff,#0072ff);
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s ease;
+            font-weight:600;
         }
 
-        .summarize-btn {
-            margin-top: 15px;
-            background-color: #28a745;
+        button:hover{
+            transform:translateY(-2px);
+            box-shadow:0 5px 20px rgba(0,114,255,0.4);
         }
 
-        .summarize-btn:hover {
-            background-color: #218838;
+        .result{
+            margin-top:35px;
+            background:rgba(255,255,255,0.08);
+            border-radius:18px;
+            padding:25px;
+            color:white;
+            border:1px solid rgba(255,255,255,0.1);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result h2{
+            margin-bottom:15px;
+            color:#00c6ff;
+            font-size:1.5rem;
+        }
+
+        .result p{
+            line-height:1.8;
+            color:#f1f1f1;
+            font-size:15px;
+        }
+
+        .summarize-btn{
+            margin-top:20px;
+            background:linear-gradient(135deg,#28a745,#1e7e34);
+        }
+
+        .summarize-btn:hover{
+            box-shadow:0 5px 20px rgba(40,167,69,0.4);
+        }
+
+        @media(max-width:768px){
+
+            .container{
+                padding:25px;
+            }
+
+            h1{
+                font-size:2.2rem;
+            }
+
+            form{
+                flex-direction:column;
+            }
+
+            button{
+                width:100%;
+            }
+
+            input[type="text"]{
+                width:100%;
+            }
         }
 
     </style>
 </head>
+
 <body>
-    <h1>NEWS Generator</h1>
-    <form method="post">
-        <input type="text" name="topic" placeholder="Enter a topic to search" required>
-        <button type="submit">Search</button>
-    </form>
 
-    {% if content %}
-    <div class="result">
-        <h2>Results for: {{ topic }}</h2>
-        <p>{{ content }}</p>
+    <div class="container">
 
-        <form method="post" action="/summarize">
-            <input type="hidden" name="topic" value="{{ topic }}">
-            <button type="submit" class="summarize-btn">Summarize</button>
+        <h1>Fake News Detection</h1>
+
+        <p class="subtitle">
+            Analyze news topics and detect misleading information using AI
+        </p>
+
+        <form method="post">
+
+            <input 
+                type="text" 
+                name="topic" 
+                placeholder="Enter a news topic..." 
+                required
+            >
+
+            <button type="submit">Analyze</button>
+
         </form>
+
+        {% if content %}
+
+        <div class="result">
+
+            <h2>Results for: {{ topic }}</h2>
+
+            <p>{{ content }}</p>
+
+            <form method="post" action="/summarize">
+
+                <input type="hidden" name="topic" value="{{ topic }}">
+
+                <button type="submit" class="summarize-btn">
+                    Summarize News
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endif %}
+
     </div>
-    {% endif %}
+
 </body>
 </html>
